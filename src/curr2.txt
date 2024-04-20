@@ -1,0 +1,141 @@
+// v2 bonita
+import React, { useState } from 'react';
+import { TextField, Button, Typography, Container, Grid } from '@mui/material';
+
+const CadastroForm = () => {
+  const [formData, setFormData] = useState({
+    dadosPessoais: {
+      nome: '',
+      sobrenome: '',
+      cpf: '',
+      dataNascimento: '',
+      genero: '',
+      nacionalidade: ''
+    },
+    contato: {
+      telefone: '',
+      celular: '',
+      email: '',
+      site: ''
+    },
+    endereco: {
+      cep: '',
+      logradouro: '',
+      numero: '',
+      complemento: '',
+      bairro: '',
+      cidade: '',
+      uf: ''
+    },
+    formacao: {
+      curso: '',
+      nivel: '',
+      instituicao: '',
+      dataInicio: '',
+      dataConclusao: ''
+    },
+    dadosProfissionais: []
+  });
+
+  const handleChange = (e, section, field) => {
+    const { value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [section]: {
+        ...prevState[section],
+        [field]: value
+      }
+    }));
+  };
+
+  const handleAddExperience = () => {
+    setFormData(prevState => ({
+      ...prevState,
+      dadosProfissionais: [...prevState.dadosProfissionais, {
+        empresa: '',
+        cargo: '',
+        dataInicio: '',
+        dataFim: '',
+        descricao: ''
+      }]
+    }));
+  };
+
+  return (
+    <Container maxWidth="sm">
+      <Typography variant="h4" align="center" gutterBottom>
+        Cadastro
+      </Typography>
+      <Grid container spacing={2}>
+        {/* Dados Pessoais */}
+        <Grid item xs={12}>
+          <TextField
+            fullWidth
+            label="Nome"
+            value={formData.dadosPessoais.nome}
+            onChange={e => handleChange(e, 'dadosPessoais', 'nome')}
+          />
+        </Grid>
+        {/* Adicione os outros campos para os dados pessoais aqui */}
+
+        {/* Contato */}
+        <Grid item xs={12}>
+          <TextField
+            fullWidth
+            label="Telefone"
+            value={formData.contato.telefone}
+            onChange={e => handleChange(e, 'contato', 'telefone')}
+          />
+        </Grid>
+        {/* Adicione os outros campos para o contato aqui */}
+
+        {/* Endereço */}
+        <Grid item xs={12}>
+          <TextField
+            fullWidth
+            label="CEP"
+            value={formData.endereco.cep}
+            onChange={e => handleChange(e, 'endereco', 'cep')}
+          />
+        </Grid>
+        {/* Adicione os outros campos para o endereço aqui */}
+
+        {/* Formação Acadêmica */}
+        <Grid item xs={12}>
+          <TextField
+            fullWidth
+            label="Curso"
+            value={formData.formacao.curso}
+            onChange={e => handleChange(e, 'formacao', 'curso')}
+          />
+        </Grid>
+        {/* Adicione os outros campos para a formação acadêmica aqui */}
+
+        {/* Experiência Profissional */}
+        {formData.dadosProfissionais.map((exp, index) => (
+          <Grid container item xs={12} spacing={2} key={index}>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Empresa"
+                value={exp.empresa}
+                onChange={e => handleChange(e, 'dadosProfissionais', index, 'empresa')}
+              />
+            </Grid>
+            {/* Adicione os outros campos para a experiência profissional aqui */}
+          </Grid>
+        ))}
+        <Grid item xs={12}>
+          <Button variant="contained" onClick={handleAddExperience}>Adicionar outra experiência profissional</Button>
+        </Grid>
+
+        {/* Botão de Envio */}
+        <Grid item xs={12}>
+          <Button variant="contained" color="primary" onClick={() => console.log(formData)}>Enviar Cadastro</Button>
+        </Grid>
+      </Grid>
+    </Container>
+  );
+};
+
+export default CadastroForm;
