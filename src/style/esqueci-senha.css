@@ -1,3 +1,10 @@
+/* .esqueci-senha-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+} */
+
 /* .login-container {
     display: flex;
     flex-direction: column;
@@ -11,7 +18,7 @@
     height: auto;
 } */
 
-.login-container {
+.esqueci-senha-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -19,7 +26,7 @@
     height: 100vh;
 }
 
-.login-form {
+.esqueci-senha-form {
     width: 420px;
     box-shadow: rgb(0 0 0 / 16%) 1px 1px 10px;
     padding-top: 30px;
@@ -28,12 +35,12 @@
     background-color: white;
 }
 
-.login-form-content {
+.esqueci-senha-form-content {
     padding-left: 12%;
     padding-right: 12%;
 }
 
-.login-form-title {
+.esqueci-senha-form-title {
     text-align: center;
     margin-bottom: 1em;
     font-size: 24px;

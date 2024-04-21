@@ -4,6 +4,8 @@ import { auth } from '../api/auth'
 import logo from '../img/logo.png'
 import '../style/login.css'
 import { useNavigate } from "react-router-dom";
+import Footer from './Footer';
+import AppNavbar from './Navbar';
 
 
 
@@ -33,7 +35,9 @@ const Login = () => {
             asyncLocalStorage.setItem('token', response.data.token).then(data => {
                 asyncLocalStorage.setItem('usuarioId', response.data.usuarioId).then(data => {
                     asyncLocalStorage.setItem('email', response.data.email).then(data => {
-                        navigate("/home");
+                        asyncLocalStorage.setItem('tipoUsuario', response.data.tipoUsuario).then(data => {
+                            navigate("/home");
+                        });
                     })
                 })
             })
@@ -44,63 +48,47 @@ const Login = () => {
     }
 
     return (
-        <div className="login-container">
-            <div className='row'>
-                <div className='col-md-12'>
-                    <h2>Vagas Casa 1 <img src={logo} className="logo-icon" alt="Logo da aplicação da ong Casa 1" /></h2>
-                </div>
-            </div>
-            <div className='row'>
-                <div className='col-md-12'>
-                    <form>
-                        <div className="form-group">
-                            <label htmlFor="username">Email</label>
+        <div>
+            <AppNavbar />
+            <div className="login-container">
+                <form className="login-form">
+                    <div className="login-form-content">
+                        <h3 className="login-form-title">Casa 1 Vagas</h3>
+                        <div className="form-group mt-3">
+                            <label>Email</label>
                             <input
                                 type="email"
-                                className="form-control"
-                                required
-                                id="username"
+                                className="form-control mt-1"
+                                placeholder="Digite seu email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
-                        <br />
-                        <div className="form-group">
-                            <label htmlFor="password">Senha</label>
+                        <div className="form-group mt-3">
+                            <label>Senha</label>
                             <input
                                 type="password"
-                                className="form-control"
-                                required
-                                id="password"
+                                className="form-control mt-1"
+                                placeholder="Digite sua senha"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
-                        <br />
-                        {loginError && (
-                            <div className='alert'>Falha no login. Verifique suas credenciais e tente novamente.</div>
-                        )}
-                        <div className='row'>
-                            <div className='col-md-12'>
-                                <button className="btn btn-primary" onClick={handleLogin}>
-                                    Login
-                                </button>
-
-                            </div>
+                        <div className="d-grid gap-2 mt-3">
+                            <button type="submit" className="btn btn-primary" onClick={handleLogin}>
+                                Entrar
+                            </button>
                         </div>
-                        <br />
-                        <div className='row'>
-                            <div className='col-md-6'>
-                                <a className='btn btn-primary' href='/novo-usuario'>Novo Usuário</a>
-                            </div>
-                            <div className='col-md-6'>
-                                <a href='/esqueci-senha'>Esqueci minha senha</a>
-                            </div>
+                        <div className="d-grid gap-2 mt-3">
+                            <a className='btn btn-primary' href='/novo-usuario'>Novo Usuário</a>
                         </div>
-                    </form>
-                </div>
-
+                        <p className="forgot-password text-right mt-2">
+                            <a href="/esqueci-senha">Esqueceu a sua senha?</a>
+                        </p>
+                    </div>
+                </form>
             </div>
+            <Footer />
         </div>
     );
 }

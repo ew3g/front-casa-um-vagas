@@ -12,7 +12,10 @@ export const auth = async (email, password) => {
     // return response;
     const response = {
         data: {
-            token: "Bearer 123456"
+            token: "Bearer 123456",
+            usuarioId: 1,
+            email: "teste@teste.com",
+            tipoUsuario: "pessoa-fisica"
         }
     };
 

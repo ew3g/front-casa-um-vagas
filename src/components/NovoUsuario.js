@@ -4,13 +4,16 @@ import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../style/novo-usuario.css';
 //import { getQuestoes } from '../api/questao';
-
+import Form from 'react-bootstrap/Form';
+import Footer from './Footer';
+import AppNavbar from './Navbar';
 
 
 
 const NovoUsuario = () => {
     const navigate = useNavigate();
     //const [nomeUsuario, setNomeUsuario] = useState('');
+    const [tipoUsuario, setTipoUsuario] = useState("");
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [senhaRepetida, setSenhaRepetida] = useState('');
@@ -26,6 +29,10 @@ const NovoUsuario = () => {
         };
         //fetchQuestoes();
     }, []);
+
+    const handleSelectTipoUsuarioChange = (e) => {
+        setTipoUsuario(e.target.value);
+    };
 
     const handleCriarUsuario = async (e) => {
         e.preventDefault();
@@ -66,65 +73,83 @@ const NovoUsuario = () => {
     };
 
     return (
-        <div className="novo-usuario-container">
-            <div className='row'>
-                <div className='col-md-12'>
-                    <h2>Novo Usuário</h2>
-                </div>
-            </div>
-            <div className='row'>
-                <div className='col-md-12'>
-                    <form>
-                        <div className="form-group">
-                            <label htmlFor="email">Email</label>
+
+
+
+        <div>
+            <AppNavbar />
+            <div className="novo-usuario-container">
+                <form className="novo-usuario-form">
+                    <div className="novo-usuario-form-content">
+                        <h3 className="novo-usuario-form-title">Cadastro Usuário</h3>
+                        <div className="form-group mt-3">
+                            <label>Tipo Usuário</label>
+                            <Form.Select
+                                type="select"
+                                className="form-control mt-1"
+                                placeholder="Digite seu email"
+                                value={tipoUsuario}
+                                onChange={handleSelectTipoUsuarioChange}
+                            >
+                                <option value="">Selecione uma opção</option>
+                                <option value="pessoa-fisica">Pessoa Física</option>
+                                <option value="pessoa-juridica">Pessoa Jurídica</option>
+                            </Form.Select>
+                        </div>
+                        <div className="form-group mt-3">
+                            <label>Email</label>
                             <input
                                 type="email"
-                                className="form-control"
-                                required
-                                id="email"
+                                className="form-control mt-1"
+                                placeholder="Email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="senha">Senha</label>
+                        <div className="form-group mt-3">
+                            <label>Senha</label>
                             <input
                                 type="password"
-                                className="form-control"
-                                required
-                                id="senha"
+                                className="form-control mt-1"
+                                placeholder="Senha"
                                 value={senha}
                                 onChange={(e) => setSenha(e.target.value)}
                             />
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="senha-repetida">Repita a senha</label>
+                        <div className="form-group mt-3">
+                            <label>Repita a senha</label>
                             <input
                                 type="password"
-                                className="form-control"
-                                required
-                                id="senha-repetida"
+                                className="form-control mt-1"
+                                placeholder="Repita a senha"
                                 value={senhaRepetida}
                                 onChange={(e) => setSenhaRepetida(e.target.value)}
                             />
                         </div>
-                        <br />
-                        <div className='row'>
-                            <div className='col-md-9'>
-                                <button className="btn btn-primary btn-sm" onClick={handleCriarUsuario}>
-                                    Criar usuário
-                                </button>
-                            </div>
+                        <div className="d-grid gap-2 mt-3">
+                            <button type="submit" className="btn btn-primary" onClick={handleCriarUsuario}>
+                                Criar usuário
+                            </button>
                         </div>
-                        <div className='row'>
-                            {info && (
-                                <div className='alert'>{info}</div>
-                            )}
+                        <div className="d-grid gap-2 mt-3">
+                            <a className='btn btn-primary' href='/novo-usuario'>Novo Usuário</a>
                         </div>
-                    </form>
-                </div>
+                        <p className="forgot-password text-right mt-2">
+                            <a href="/esqueci-senha">Esqueceu a sua senha?</a>
+                        </p>
+                    </div>
+                    <div className='row'>
+                        {info && (
+                            <div className='alert'>{info}</div>
+                        )}
+                    </div>
+                </form>
             </div>
+            <Footer />
         </div>
+
+
+
     )
 }
 

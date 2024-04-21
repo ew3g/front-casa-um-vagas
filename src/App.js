@@ -7,6 +7,7 @@ import Home from "./components/Home";
 import MeuCurriculo from './components/MeuCurriculo';
 import Vagas from './components/Vagas';
 import NovaEmpresa from './components/NovaEmpresa';
+import EsqueciSenha from './components/EsqueciSenha';
 
 const App = () => {
   // return (
@@ -35,7 +36,8 @@ const App = () => {
           <Route exact path="/meu-curriculo" element={<MeuCurriculo />} />
           <Route exact path="/vagas" element={<Vagas />} />
           <Route exact path="/novo-usuario" element={<NovoUsuario />} />
-          <Route exact path="/nova-empresa" element={NovaEmpresa} />
+          <Route exact path="/nova-empresa" element={<NovaEmpresa />} />
+          <Route exact path="/esqueci-senha" element={<EsqueciSenha />} />
         </Routes>
       </Router>
     </div>
