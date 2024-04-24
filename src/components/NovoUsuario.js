@@ -73,9 +73,6 @@ const NovoUsuario = () => {
     };
 
     return (
-
-
-
         <div>
             <AppNavbar />
             <div className="novo-usuario-container">
@@ -131,9 +128,6 @@ const NovoUsuario = () => {
                                 Criar usuário
                             </button>
                         </div>
-                        <div className="d-grid gap-2 mt-3">
-                            <a className='btn btn-primary' href='/novo-usuario'>Novo Usuário</a>
-                        </div>
                         <p className="forgot-password text-right mt-2">
                             <a href="/esqueci-senha">Esqueceu a sua senha?</a>
                         </p>
@@ -147,9 +141,6 @@ const NovoUsuario = () => {
             </div>
             <Footer />
         </div>
-
-
-
     )
 }
 
