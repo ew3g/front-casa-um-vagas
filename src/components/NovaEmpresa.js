@@ -41,6 +41,44 @@ const NovaEmpresa = () => {
             }
         }));
     };
+    
+    const handleCriarEmpresa = async (e) => {
+        e.preventDefault();
+
+        // if (email === '' || senha === '' || senhaRepetida === '') {
+        //     setInfo('Por favor, preencha todos os campos');
+        //     return;
+        // }
+
+        // if (senha !== senhaRepetida) {
+        //     setInfo('As senhas não conferem');
+        //     return;
+        // }
+
+        // const request = {
+        //     "email": email,
+        //     "senha": senha,
+        // };
+
+        // await createUsuario(request).then(response => {
+        //     if (response) {
+        //         if (response.status === 201) {
+        //             setInfo('');
+        //             alert('Usuário criado com sucesso');
+        //             navigate('/');
+        //         } else if (response.status === 409) {
+        //             setInfo("Usuário já existe");
+        //         } else {
+        //             setInfo("Erro ao criar usuário: " + response.data.detail);
+        //         }
+
+        //     } else {
+        //         setInfo("Erro ao criar usuário");
+        //     }
+        // }).catch(err => {
+        //     setInfo(err);
+        // });
+    };
 
     return (
         <div>
@@ -219,8 +257,8 @@ const NovaEmpresa = () => {
                             />
                         </div>
                         <div className="d-grid gap-2 mt-3">
-                            <button type="submit" className="btn btn-primary" >
-                                Criar usuário
+                            <button type="submit" className="btn btn-primary" onClick={handleCriarEmpresa}>
+                                Adicionar dados empresa
                             </button>
                         </div>
                     </div>
