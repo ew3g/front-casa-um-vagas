@@ -8,6 +8,7 @@ import MeuCurriculo from './components/MeuCurriculo';
 import Vagas from './components/Vagas';
 import NovaEmpresa from './components/NovaEmpresa';
 import EsqueciSenha from './components/EsqueciSenha';
+import NovoCurriculo from './components/NovoCurriculo';
 
 const App = () => {
   // return (
@@ -37,6 +38,7 @@ const App = () => {
           <Route exact path="/vagas" element={<Vagas />} />
           <Route exact path="/novo-usuario" element={<NovoUsuario />} />
           <Route exact path="/nova-empresa" element={<NovaEmpresa />} />
+          <Route exact path="/novo-curriculo" element={<NovoCurriculo />} />
           <Route exact path="/esqueci-senha" element={<EsqueciSenha />} />
         </Routes>
       </Router>
