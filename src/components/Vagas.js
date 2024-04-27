@@ -19,9 +19,9 @@ const MeuCurriculo = () => {
         const fetchVagas = async () => {
             //const usuarioId = localStorage.getItem("usuarioId");
             //if (usuarioId) {
-                const response = await getVagas();
-                console.log(response.data.vagas);
-                setVagas(response.data.vagas)
+            const response = await getVagas();
+            //console.log(response.data.vagas);
+            setVagas(response.content)
             //}
         };
 
@@ -29,7 +29,7 @@ const MeuCurriculo = () => {
     }, []);
 
     const handleVerVaga = (vagaId) => {
-        navigate("/vaga/"+ vagaId);
+        navigate("/vaga/" + vagaId);
     }
 
     const handleEditarcurriculo = () => {
@@ -42,11 +42,11 @@ const MeuCurriculo = () => {
             <div className="">
                 {vagas ?
                     <>
-                    <div className="container">
-                        <div className="card-deck">
-                        {vagas.map((v, index) => {
-                            return <div key={index} className="my-clickable-card">
-                                {/* <div className="card text-center">
+                        <div className="container">
+                            <div className="card-deck">
+                                {vagas.map((v, index) => {
+                                    return <div key={index} className="my-clickable-card">
+                                        {/* <div className="card text-center">
                                     <div className="card-block">
                                         <h4 className="card-title">{v.cargo}</h4>
                                         <div className="card-text">
@@ -54,17 +54,17 @@ const MeuCurriculo = () => {
                                         </div>
                                     </div>
                                 </div> */}
-                                <Card className="my-clickable-card" onClick={() => handleVerVaga(v.id)}>
-                                    <Card.Header>{v.cargo}</Card.Header>
-                                    <Card.Body>
-                                        <span>Empresa: {v.empresa}</span>
-                                    </Card.Body>
-                                </Card>
-                                <br/>
+                                        <Card className="my-clickable-card" onClick={() => handleVerVaga(v.id)}>
+                                            <Card.Header>{v.cargo}</Card.Header>
+                                            <Card.Body>
+                                                <span>Empresa: {v.nomeEmpresa}</span>
+                                            </Card.Body>
+                                        </Card>
+                                        <br />
+                                    </div>
+                                })}
                             </div>
-                        })}
                         </div>
-                    </div>
                     </>
                     :
                     <>
@@ -83,8 +83,8 @@ const MeuCurriculo = () => {
                 }
             </div>
             <Footer />
-            <br/>
-            <br/>
+            <br />
+            <br />
         </div>
     );
 };
