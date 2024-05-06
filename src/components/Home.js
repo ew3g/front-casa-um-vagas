@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // import Mapa from './Mapa';
 import { useNavigate } from "react-router-dom";
 import Footer from "./Footer";
-import MeuCurriculo from './MeuCurriculo';
+import Vagas from './Vagas';
 
 
 const Home = () => {
@@ -20,7 +20,7 @@ const Home = () => {
 
     return (
         <div>
-            <MeuCurriculo />
+            <Vagas />
         </div>
     )
 

@@ -39,6 +39,7 @@ const MeuCurriculo = () => {
     return (
         <div>
             <AppNavbar />
+            <br/>
             <div className="">
                 {vagas ?
                     <>
@@ -46,18 +47,20 @@ const MeuCurriculo = () => {
                             <div className="card-deck">
                                 {vagas.map((v, index) => {
                                     return <div key={index} className="my-clickable-card">
-                                        {/* <div className="card text-center">
-                                    <div className="card-block">
-                                        <h4 className="card-title">{v.cargo}</h4>
-                                        <div className="card-text">
-                                            <span>Empresa: {v.empresa}</span>    
-                                        </div>
-                                    </div>
-                                </div> */}
                                         <Card className="my-clickable-card" onClick={() => handleVerVaga(v.id)}>
-                                            <Card.Header>{v.cargo}</Card.Header>
+                                            <Card.Header>{v.cargo} - Publicado em: {v.dataPublicacao}</Card.Header>
                                             <Card.Body>
-                                                <span>Empresa: {v.nomeEmpresa}</span>
+                                                <span>Empresa: {v.nomeEmpresa}</span><br/>
+                                                <span>Título: {v.titulo}</span><br/>
+                                                <span>Salário: {v.salario}</span><br/>
+                                                <span>Formato: {v.formatoDeTrabalho}</span><br/>
+                                                <span>Experiência Requirida: {v.experienciaRequirida} anos</span><br/>
+                                                <span>Formação Requirida: {v.formacaoRequirida}</span><br/>
+                                                <span>Descrição: {v.descricao}</span><br/>
+                                                <span>Empresa: {v.nomeEmpresa}</span><br/>
+                                                <span>Cidade: {v.cidade}</span><br/>
+                                                <span>Habilidade Requiridas: {v.habilidadesRequeridas}</span><br/>
+                                            
                                             </Card.Body>
                                         </Card>
                                         <br />
