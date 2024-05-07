@@ -4,9 +4,13 @@ import AppNavbar from './Navbar';
 import Footer from './Footer';
 import Form from 'react-bootstrap/Form';
 import '../style/nova-empresa.css';
+import { postEmpresa } from '../api/empresa';
+import { useNavigate } from "react-router-dom";
 
 
 const NovaEmpresa = () => {
+    const navigate = useNavigate();
+    const [info, setInfo] = useState('');
     const [formData, setFormData] = useState({
         empresa: {
             cnpj: "",
@@ -45,6 +49,11 @@ const NovaEmpresa = () => {
     const handleCriarEmpresa = async (e) => {
         e.preventDefault();
 
+        //console.log("click");
+        //console.log(formData);
+        //const response = await postEmpresa(formData);
+        //console.log(response);
+
         // if (email === '' || senha === '' || senhaRepetida === '') {
         //     setInfo('Por favor, preencha todos os campos');
         //     return;
@@ -60,24 +69,25 @@ const NovaEmpresa = () => {
         //     "senha": senha,
         // };
 
-        // await createUsuario(request).then(response => {
-        //     if (response) {
-        //         if (response.status === 201) {
-        //             setInfo('');
-        //             alert('Usuário criado com sucesso');
-        //             navigate('/');
-        //         } else if (response.status === 409) {
-        //             setInfo("Usuário já existe");
-        //         } else {
-        //             setInfo("Erro ao criar usuário: " + response.data.detail);
-        //         }
+        await postEmpresa(formData).then(response => {
+            if (response) {
+                console.log(response);
+                if (response.status === 201) {
+                    setInfo('');
+                    alert('Empresa criada com sucesso');
+                    navigate('/empresas');
+                } else if (response.status === 409) {
+                    setInfo("Empresa já existe");
+                } else {
+                    setInfo("Erro ao criar empresa: " + response.data.detail);
+                }
 
-        //     } else {
-        //         setInfo("Erro ao criar usuário");
-        //     }
-        // }).catch(err => {
-        //     setInfo(err);
-        // });
+            } else {
+                setInfo("Erro ao criar empresa");
+            }
+        }).catch(err => {
+            setInfo(err);
+        });
     };
 
     return (
@@ -128,8 +138,8 @@ const NovaEmpresa = () => {
                                 onChange={e => handleChange(e, "empresa", "areaDeAtuacao")}
                             >
                                 <option value="">Selecione uma opção</option>
-                                <option value="ensino-basico">Ensino Básico</option>
-                                <option value="ensino-superior">Ensino Superior</option>
+                                <option value="Ensino Básico">Ensino Básico</option>
+                                <option value="Ensino Superior">Ensino Superior</option>
                             </Form.Select>
                         </div>
                         <br/>
@@ -197,16 +207,6 @@ const NovaEmpresa = () => {
                             />
                         </div>
                         <div className='form-group mt-3'>
-                            <label>Logradouro</label>
-                            <input
-                                type="text"
-                                className="form-control mt-1"
-                                placeholder="Logradouro"
-                                value={formData.endereco.logradouro}
-                                onChange={e => handleChange(e, "endereco", "logradouro")}
-                            />
-                        </div>
-                        <div className='form-group mt-3'>
                             <label>Número</label>
                             <input
                                 type="text"
@@ -257,9 +257,14 @@ const NovaEmpresa = () => {
                             />
                         </div>
                         <div className="d-grid gap-2 mt-3">
-                            <button type="submit" className="btn btn-primary" onClick={handleCriarEmpresa}>
+                            <button className="btn btn-primary" onClick={handleCriarEmpresa}>
                                 Adicionar dados empresa
                             </button>
+                        </div>
+                        <div className="d-grid gap-2 mt-3">
+                            {info && (
+                                <div className='alert'>{info}</div>
+                            )}
                         </div>
                     </div>
                 </form>

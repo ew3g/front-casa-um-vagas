@@ -8,28 +8,30 @@ import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import { getVagas } from "../api/vagas";
 import '../style/vagas.css';
+import { getEmpresas } from "../api/empresa";
+import NovaEmpresa from "./NovaEmpresa";
 
 
-const MeuCurriculo = () => {
+const Empresas = () => {
     const navigate = useNavigate();
 
-    const [vagas, setVagas] = useState("");
+    const [empresas, setEmpresas] = useState("");
     const [totalElementos, setTotalElementos] = useState("");//CONTINUAR DAQUI
 
     useEffect(() => {
-        const fetchVagas = async () => {
+        const fetchEmpresas = async () => {
             //const usuarioId = localStorage.getItem("usuarioId");
             //if (usuarioId) {
-            const response = await getVagas();
-            //console.log(response.data.vagas);
+            const response = await getEmpresas();
+            console.log(response.data.content);
             if (response) {
-                setVagas(response.data.content);
+                setEmpresas(response.data.content);
             }
 
             //}
         };
 
-        fetchVagas();
+        fetchEmpresas();
     }, []);
 
     const handleVerVaga = (vagaId) => {
@@ -40,8 +42,8 @@ const MeuCurriculo = () => {
         navigate("/editar-curriculo");
     }
 
-    const handleNovaVaga = () => {
-        navigate("/vaga");
+    const handleNovaEmpresa = () => {
+        navigate("/empresa");
     }
 
     return (
@@ -49,25 +51,31 @@ const MeuCurriculo = () => {
             <AppNavbar />
             <div className="container">
                 <div className="d-grid gap-2 mt-3">
-                    <button type="submit" className="btn btn-primary" onClick={handleNovaVaga}>
-                        Nova vaga
+                    <button type="submit" className="btn btn-primary" onClick={handleNovaEmpresa}>
+                        Nova Empresa
                     </button>
                 </div>
             </div>
             
             <br/>
             <div className="">
-                {vagas ?
+                {empresas ?
                     <>
                         <div className="container">
                             <div className="card-deck">
-                                {vagas.map((v, index) => {
+                                {empresas.map((e, index) => {
                                     return <div key={index} className="my-clickable-card">
-                                        <Card className="my-clickable-card" onClick={() => handleVerVaga(v.id)}>
-                                            <Card.Header>{v.cargo} - Publicado em: {v.dataPublicacao}</Card.Header>
+                                        <Card className="my-clickable-card" onClick={() => handleVerVaga(e.id)}>
+                                            <Card.Header>{e.nomeFantasia}</Card.Header>
                                             <Card.Body>
-                                                <span>Empresa: {v.nomeEmpresa}</span><br/>
-                                                <span>Título: {v.titulo}</span><br/>
+                                                <span>Razão Social: {e.razaoSocial}</span><br/>
+                                                <span>Celular: {e.contato.celular}</span><br/>
+                                                <span>Telefone: {e.contato.telefone}</span><br/>
+                                                <span>Email: {e.contato.email}</span><br/>
+                                                <span>Site: {e.contato.site}</span><br/>
+                                                <span>Endereço: {e.endereco.logradouro}, {e.endereco.numero}, {e.endereco.bairro}, complemento: {e.endereco.complemento},  {e.endereco.cidade} - {e.endereco.uf}, CEP: {e.endereco.cep}</span><br/>
+                                                <span>Área de Atuação: {e.areaDeAtuacao}</span>
+                                                {/* <span>Título: {v.titulo}</span><br/>
                                                 <span>Salário: {v.salario}</span><br/>
                                                 <span>Formato: {v.formatoDeTrabalho}</span><br/>
                                                 <span>Experiência Requirida: {v.experienciaRequirida} anos</span><br/>
@@ -75,7 +83,7 @@ const MeuCurriculo = () => {
                                                 <span>Descrição: {v.descricao}</span><br/>
                                                 <span>Empresa: {v.nomeEmpresa}</span><br/>
                                                 <span>Cidade: {v.cidade}</span><br/>
-                                                <span>Habilidade Requiridas: {v.habilidadesRequeridas}</span><br/>
+                                                <span>Habilidade Requiridas: {v.habilidadesRequeridas}</span><br/> */}
                                             
                                             </Card.Body>
                                         </Card>
@@ -88,7 +96,7 @@ const MeuCurriculo = () => {
                     :
                     <>
                         <div className="container">
-                            <span>No momento não há vagas cadastradas</span>
+                            <span>No momento não há empresas cadastradas</span>
                         </div>
                         {/* {vagas.map((v, index) => (
                             <div key={index}>
@@ -110,4 +118,4 @@ const MeuCurriculo = () => {
     );
 };
 
-export default MeuCurriculo;
+export default Empresas;
