@@ -1,7 +1,6 @@
 import api from './axiosConfig';
 
 export const postEmpresa = async (request) => {
-
     const response = await api.post(`/empresa`, request)
         .catch(function (error) {
             console.log(error);
@@ -14,7 +13,6 @@ export const postEmpresa = async (request) => {
     }
 
     return undefined;
-    
 }
 
 export const getEmpresas = async () => {
