@@ -16,8 +16,8 @@ export const postVaga = async (request) => {
 }
 
 
-export const getVagas = async () => {
-    const response = await api.get(`/vaga?page=0&size=19999&sort=dataPublicacao`)
+export const getVagas = async (pagina, maxResults, sort) => {
+    const response = await api.get(`/vaga?page=${pagina}&size=${maxResults}&sort=${sort}`)
         .catch(function (error) {
             console.log(error);
         });

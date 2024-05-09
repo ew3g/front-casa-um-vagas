@@ -2,6 +2,7 @@ import { React, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AppNavbar from "./Navbar";
 import Footer from "./Footer";
+import Form from 'react-bootstrap/Form';
 import { getCurriculoByUsuarioId } from "../api/curriculo";
 import '../style/meu-curriculo.css';
 import Accordion from 'react-bootstrap/Accordion';
@@ -14,39 +15,155 @@ const MeuCurriculo = () => {
     const navigate = useNavigate();
 
     const [vagas, setVagas] = useState("");
-    const [totalElementos, setTotalElementos] = useState("");//CONTINUAR DAQUI
+    //const [totalElementos, setTotalElementos] = useState("");
+    const [totalPaginas, setTotalPaginas] = useState(0);
+    const [pagina, setPagina] = useState(0);
+    const [sort, setSort] = useState("dataPublicacao");
+    const [maxResults, setMaxResults] = useState(10);
+    
+    const [filtros, setFiltros] = useState({
+        page: 0,
+        size: 15,
+        sort: "dataPublicacao"
+    });
 
-    useEffect(() => {
-        const fetchVagas = async () => {
-            //const usuarioId = localStorage.getItem("usuarioId");
-            //if (usuarioId) {
-            const response = await getVagas();
-            //console.log(response.data.vagas);
-            if (response) {
-                setVagas(response.data.content);
+
+    const fetchVagas = async (pg, max, srt) => {
+        console.log(pg, max, srt);
+        //const usuarioId = localStorage.getItem("usuarioId");
+        //if (usuarioId) {
+        //console.log(maxResults);
+        const response = await getVagas(pg, max, srt);
+        //console.log(filtros);
+        //console.log(response.data.vagas);
+        if (response) {
+            setVagas(response.data.content);
+            //setTotalElementos(response.data.totalElements);
+
+            //console.log(response.data.totalElements, total);
+            const totalElementos = response.data.totalElements;
+
+            var numeroPaginas = Math.floor(totalElementos / 4);
+            if (totalElementos % 5 > 0) {
+                numeroPaginas++;
             }
-
-            //}
+            setTotalPaginas(numeroPaginas)
+            //console.log(numeroPaginas)
         };
 
-        fetchVagas();
+        //}
+    };
+
+    useEffect(() => {
+        fetchVagas(pagina, maxResults, sort);
     }, []);
 
     const handleVerVaga = (vagaId) => {
         navigate("/vaga/" + vagaId);
-    }
+    };
 
     const handleEditarcurriculo = () => {
         navigate("/editar-curriculo");
-    }
+    };
 
     const handleNovaVaga = () => {
         navigate("/vaga");
+    };
+
+    const handleFilterChange = (e, field) => {
+        console.log("rodou", e.target.value);
+        setPagina(e.target.value);
+    //     console.log(field, e.target.value);
+    //     const {value} = e.target.value;
+    //     setFiltros(prevState => ({
+    //         ...prevState,
+    //         [field]: value
+    //     }));
+
+    //     console.log(filtros);
+    //    window.location.reload();
+    };
+
+    const handleSortChange = (e) => {
+        console.log("rodou", e.target.value);
+        setSort(e.target.value);
+        fetchVagas(pagina, maxResults, e.target.value);
+    }
+
+    const handlePaginaChange = (e) => {
+        console.log("rodou", e.target.value);
+        setPagina(e.target.value);
+        fetchVagas(e.target.value, maxResults, sort);
+    }
+
+    const handleMaxResults = (e) => {
+        console.log("rodou", e.target.value);
+        setMaxResults(e.target.value);
+        
+        fetchVagas(pagina, e.target.value, sort);
     }
 
     return (
         <div>
             <AppNavbar />
+            <menu>
+                <label>
+                    Ordenar por
+                    <Form.Select 
+                        name="sort" 
+                        id="sort"
+                        type="select"
+                        className="form-control-mt-1"
+                        value={sort}
+                        onChange={e => handleSortChange(e)}>
+                        <option value="dataPublicacao">Data Publicação</option>
+                        <option value="titulo">Título</option>
+                        <option value="cargo">Cargo</option>
+                        <option value="formatoDeTrabalho">Formato de Trabalho</option>
+                        <option value="cidade">Cidade</option>
+                        <option value="formacaoRequerida">Formação Requerida</option>
+                        <option value="experienciaRequerida">Experiência Requerida</option>
+                        <option value="salario">Salário</option>
+                    </Form.Select>
+                </label>
+                <label>
+                    Página
+                    <Form.Select 
+                        name="page" 
+                        id="page"
+                        type="select"
+                        className="form-control-mt-1"
+                        value={pagina}
+                         onChange={e => handlePaginaChange(e)}
+                        >
+                        {
+                            <>
+                                {
+                                    Array.from(Array(totalPaginas)).map((s, i) => (
+                                        <option key={i} value={i}>{i+1}</option>
+                                    ))
+
+                                }
+                            </>
+                        }
+                    </Form.Select>
+                </label>
+                <label>
+                    Máximo resultados por página
+                    <Form.Select 
+                        name="maxResults" 
+                        id="maxResults"
+                        type="select"
+                        className="form-control-mt-1"
+                        value={maxResults}
+                         onChange={e => handleMaxResults(e)}
+                        >
+                        <option value={5}>5</option>
+                        <option value={10}>10</option>
+                        <option value={15}>15</option>
+                    </Form.Select>
+                </label>
+            </menu>
             <div className="container">
                 <div className="d-grid gap-2 mt-3">
                     <button type="submit" className="btn btn-primary" onClick={handleNovaVaga}>
