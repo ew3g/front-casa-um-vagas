@@ -43,11 +43,13 @@ const MeuCurriculo = () => {
             //console.log(response.data.totalElements, total);
             const totalElementos = response.data.totalElements;
 
-            var numeroPaginas = Math.floor(totalElementos / 4);
+            var numeroPaginas = Math.floor(totalElementos / maxResults);
             if (totalElementos % 5 > 0) {
                 numeroPaginas++;
             }
-            setTotalPaginas(numeroPaginas)
+            console.log("npg",numeroPaginas)
+            setTotalPaginas(numeroPaginas);
+            //totalPaginas = numeroPaginas;
             //console.log(numeroPaginas)
         };
 
@@ -97,16 +99,21 @@ const MeuCurriculo = () => {
     }
 
     const handleMaxResults = (e) => {
+        setPagina(0);
         console.log("rodou", e.target.value);
         setMaxResults(e.target.value);
         
+        //setPagina(0);
         fetchVagas(pagina, e.target.value, sort);
+        
     }
 
     return (
         <div>
             <AppNavbar />
-            <menu>
+            <div className="container">
+                <div className="d-grid gap-2 mt-3">
+                <menu>
                 <label>
                     Ordenar por
                     <Form.Select 
@@ -126,46 +133,7 @@ const MeuCurriculo = () => {
                         <option value="salario">Salário</option>
                     </Form.Select>
                 </label>
-                <label>
-                    Página
-                    <Form.Select 
-                        name="page" 
-                        id="page"
-                        type="select"
-                        className="form-control-mt-1"
-                        value={pagina}
-                         onChange={e => handlePaginaChange(e)}
-                        >
-                        {
-                            <>
-                                {
-                                    Array.from(Array(totalPaginas)).map((s, i) => (
-                                        <option key={i} value={i}>{i+1}</option>
-                                    ))
-
-                                }
-                            </>
-                        }
-                    </Form.Select>
-                </label>
-                <label>
-                    Máximo resultados por página
-                    <Form.Select 
-                        name="maxResults" 
-                        id="maxResults"
-                        type="select"
-                        className="form-control-mt-1"
-                        value={maxResults}
-                         onChange={e => handleMaxResults(e)}
-                        >
-                        <option value={5}>5</option>
-                        <option value={10}>10</option>
-                        <option value={15}>15</option>
-                    </Form.Select>
-                </label>
             </menu>
-            <div className="container">
-                <div className="d-grid gap-2 mt-3">
                     <button type="submit" className="btn btn-primary" onClick={handleNovaVaga}>
                         Nova vaga
                     </button>
@@ -219,6 +187,49 @@ const MeuCurriculo = () => {
                         ))} */}
                     </>
                 }
+            </div>
+            <div className="container">
+                <div className="d-grid gap-2 mt-3">
+                    <menu>
+                        <label>
+                            Página
+                            <Form.Select 
+                                name="page" 
+                                id="page"
+                                type="select"
+                                className="form-control-mt-1"
+                                value={pagina}
+                                onChange={e => handlePaginaChange(e)}
+                                >
+                                {
+                                    <>
+                                        {
+                                            Array.from(Array(totalPaginas)).map((s, i) => (
+                                                <option key={i} value={i}>{i+1}</option>
+                                            ))
+
+                                        }
+                                    </>
+                                }
+                            </Form.Select>
+                        </label>
+                        {/* <label>
+                            Máximo resultados por página
+                            <Form.Select 
+                                name="maxResults" 
+                                id="maxResults"
+                                type="select"
+                                className="form-control-mt-1"
+                                value={maxResults}
+                                onChange={e => handleMaxResults(e)}
+                                >
+                                <option value={5}>5</option>
+                                <option value={10}>10</option>
+                                <option value={15}>15</option>
+                            </Form.Select>
+                        </label> */}
+                    </menu>
+                </div>
             </div>
             <Footer />
             <br />
