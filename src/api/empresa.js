@@ -15,8 +15,8 @@ export const postEmpresa = async (request) => {
     return undefined;
 }
 
-export const getEmpresas = async () => {
-    const response = await api.get(`/empresa?page=0&size=100&sort=razaoSocial`)
+export const getEmpresas = async (pagina, maxResults, sort) => {
+    const response = await api.get(`/empresa?page=${pagina}&size=${maxResults}&sort=${sort}`)
         .catch(function (error) {
             console.log(error);
         });

@@ -11,22 +11,14 @@ import { getVagas } from "../api/vagas";
 import '../style/vagas.css';
 
 
-const MeuCurriculo = () => {
+const Vagas = () => {
     const navigate = useNavigate();
 
     const [vagas, setVagas] = useState("");
-    //const [totalElementos, setTotalElementos] = useState("");
     const [totalPaginas, setTotalPaginas] = useState(0);
     const [pagina, setPagina] = useState(0);
     const [sort, setSort] = useState("dataPublicacao");
-    const [maxResults, setMaxResults] = useState(10);
-    
-    const [filtros, setFiltros] = useState({
-        page: 0,
-        size: 15,
-        sort: "dataPublicacao"
-    });
-
+    const maxResults = 10;
 
     const fetchVagas = async (pg, max, srt) => {
         console.log(pg, max, srt);
@@ -44,7 +36,7 @@ const MeuCurriculo = () => {
             const totalElementos = response.data.totalElements;
 
             var numeroPaginas = Math.floor(totalElementos / maxResults);
-            if (totalElementos % 5 > 0) {
+            if (totalElementos % maxResults > 0) {
                 numeroPaginas++;
             }
             console.log("npg",numeroPaginas)
@@ -98,15 +90,15 @@ const MeuCurriculo = () => {
         fetchVagas(e.target.value, maxResults, sort);
     }
 
-    const handleMaxResults = (e) => {
-        setPagina(0);
-        console.log("rodou", e.target.value);
-        setMaxResults(e.target.value);
+    // const handleMaxResults = (e) => {
+    //     setPagina(0);
+    //     console.log("rodou", e.target.value);
+    //     setMaxResults(e.target.value);
         
-        //setPagina(0);
-        fetchVagas(pagina, e.target.value, sort);
+    //     //setPagina(0);
+    //     fetchVagas(pagina, e.target.value, sort);
         
-    }
+    // }
 
     return (
         <div>
@@ -238,4 +230,4 @@ const MeuCurriculo = () => {
     );
 };
 
-export default MeuCurriculo;
+export default Vagas;
