@@ -45,7 +45,7 @@ const NovaEmpresa = () => {
             }
         }));
     };
-    
+
     const handleCriarEmpresa = async (e) => {
         e.preventDefault();
 
@@ -92,7 +92,7 @@ const NovaEmpresa = () => {
 
     return (
         <div>
-            <AppNavbar/>
+            <AppNavbar />
             <div className="nova-empresa-container">
                 <form className='nova-empresa-form'>
                     <div className='nova-empresa-form-content'>
@@ -142,7 +142,7 @@ const NovaEmpresa = () => {
                                 <option value="Ensino Superior">Ensino Superior</option>
                             </Form.Select>
                         </div>
-                        <br/>
+                        <br />
                         <h4>Dados de contato</h4>
                         <div className='form-group mt-3'>
                             <label>Telefone</label>
@@ -184,7 +184,7 @@ const NovaEmpresa = () => {
                                 onChange={e => handleChange(e, "contato", "site")}
                             />
                         </div>
-                        <br/>
+                        <br />
                         <h4>Endereço</h4>
                         <div className='form-group mt-3'>
                             <label>CEP</label>
@@ -269,9 +269,9 @@ const NovaEmpresa = () => {
                     </div>
                 </form>
             </div>
-            <br/><br/>
-        <br/>
-        <Footer/>
+            <br /><br />
+            <br />
+            <Footer />
         </div>
     );
 

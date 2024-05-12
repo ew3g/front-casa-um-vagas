@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import { TextField, Button, Typography, Container, Grid } from '@mui/material';
 import AppNavbar from './Navbar';
 import Footer from './Footer';
@@ -6,11 +6,45 @@ import Form from 'react-bootstrap/Form';
 import '../style/nova-empresa.css';
 import { postVaga } from '../api/vagas';
 import { useNavigate } from "react-router-dom";
-
+import { getEmpresas } from "../api/empresa";
+import AsyncSelect from 'react-select/async';
 
 const NovaVaga = () => {
     const navigate = useNavigate();
     const [info, setInfo] = useState('');
+    const INITIAL_DATA = {
+        value: 0,
+        label: 'Selecione o usuário',
+    };
+    const [selectData, setselectData] = useState(INITIAL_DATA);
+    const mapResponseToValuesAndLabels = (data) => ({
+        value: data.id,
+        label: data.razaoSocial,
+    });
+
+
+    const setEmpresa = (e) => {
+        setselectData(e);
+        formData.idEmpresa = e.value;
+        console.log(formData);
+    }
+
+    async function callApi(value) {
+        const data = await fetch(`http://localhost:8080/empresa`)
+            .then((response) => response.json())
+            .then((response) => response.content)
+            //.then((content) => console.log(content))
+            .then((data) => data.map(mapResponseToValuesAndLabels))
+            //.then((data) => console.log(data))
+            //.then((response) => response.content.map(mapResponseToValuesAndLabels))
+            // .then((final) =>
+            //     final.filter((i) => i.label.toLowerCase().includes(value.toLowerCase()))
+            // )
+            ;
+
+        return data;
+    }
+
     const [formData, setFormData] = useState({
         titulo: "",
         cargo: "",
@@ -26,7 +60,7 @@ const NovaVaga = () => {
 
     const handleChange = (e, field) => {
         //console.log(e, field);
-        const {value} = e.target;
+        const { value } = e.target;
         setFormData(prevState => ({
             ...prevState,
             [field]: value
@@ -41,31 +75,9 @@ const NovaVaga = () => {
     const handleCriarVaga = async (e) => {
         e.preventDefault();
 
-        //console.log(formData);
-
-        //console.log("click");
-        //console.log(formData);
-        //const response = await postEmpresa(formData);
-        //console.log(response);
-
-        // if (email === '' || senha === '' || senhaRepetida === '') {
-        //     setInfo('Por favor, preencha todos os campos');
-        //     return;
-        // }
-
-        // if (senha !== senhaRepetida) {
-        //     setInfo('As senhas não conferem');
-        //     return;
-        // }
-
-        // const request = {
-        //     "email": email,
-        //     "senha": senha,
-        // };
-
         await postVaga(formData).then(response => {
             if (response) {
-                console.log(response);
+                //console.log(response);
                 if (response.status === 201) {
                     setInfo('');
                     alert('Vagas criada com sucesso');
@@ -86,7 +98,7 @@ const NovaVaga = () => {
 
     return (
         <div>
-            <AppNavbar/>
+            <AppNavbar />
             <div className="nova-empresa-container">
                 <form className='nova-empresa-form'>
                     <div className='nova-empresa-form-content'>
@@ -128,16 +140,28 @@ const NovaVaga = () => {
                         </div>
                         <div className='form-group mt-3'>
                             <label>Empresa</label>
-                            <Form.Select
+                            {/* <Form.Select
                                 type="select"
                                 className="form-control mt-1"
                                 placeholder="Empresa"
                                 value={formData.idEmpresa}
                                 onChange={e => handleChange(e, "idEmpresa")}
+                                required
                             >
-                                <option value="">Selecione uma opção</option>
-                                <option value="1">1</option>
-                            </Form.Select>
+                                <option value={1}>1</option>
+
+                            </Form.Select> */}
+
+                            <AsyncSelect
+                                cacheOptions
+                                loadOptions={callApi}
+                                onChange={(data) => {
+                                    setEmpresa(data);
+                                }}
+                                value={selectData}
+                                defaultOptions
+                            />
+
                         </div>
                         <div className='form-group mt-3'>
                             <label>Experiência requerida (em anos)</label>
@@ -204,9 +228,9 @@ const NovaVaga = () => {
                     </div>
                 </form>
             </div>
-            <br/><br/>
-        <br/>
-        <Footer/>
+            <br /><br />
+            <br />
+            <Footer />
         </div>
     );
 

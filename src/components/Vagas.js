@@ -39,7 +39,7 @@ const Vagas = () => {
             if (totalElementos % maxResults > 0) {
                 numeroPaginas++;
             }
-            console.log("npg",numeroPaginas)
+            console.log("npg", numeroPaginas)
             setTotalPaginas(numeroPaginas);
             //totalPaginas = numeroPaginas;
             //console.log(numeroPaginas)
@@ -64,20 +64,6 @@ const Vagas = () => {
         navigate("/vaga");
     };
 
-    const handleFilterChange = (e, field) => {
-        console.log("rodou", e.target.value);
-        setPagina(e.target.value);
-    //     console.log(field, e.target.value);
-    //     const {value} = e.target.value;
-    //     setFiltros(prevState => ({
-    //         ...prevState,
-    //         [field]: value
-    //     }));
-
-    //     console.log(filtros);
-    //    window.location.reload();
-    };
-
     const handleSortChange = (e) => {
         console.log("rodou", e.target.value);
         setSort(e.target.value);
@@ -90,49 +76,39 @@ const Vagas = () => {
         fetchVagas(e.target.value, maxResults, sort);
     }
 
-    // const handleMaxResults = (e) => {
-    //     setPagina(0);
-    //     console.log("rodou", e.target.value);
-    //     setMaxResults(e.target.value);
-        
-    //     //setPagina(0);
-    //     fetchVagas(pagina, e.target.value, sort);
-        
-    // }
-
     return (
         <div>
             <AppNavbar />
             <div className="container">
                 <div className="d-grid gap-2 mt-3">
-                <menu>
-                <label>
-                    Ordenar por
-                    <Form.Select 
-                        name="sort" 
-                        id="sort"
-                        type="select"
-                        className="form-control-mt-1"
-                        value={sort}
-                        onChange={e => handleSortChange(e)}>
-                        <option value="dataPublicacao">Data Publicação</option>
-                        <option value="titulo">Título</option>
-                        <option value="cargo">Cargo</option>
-                        <option value="formatoDeTrabalho">Formato de Trabalho</option>
-                        <option value="cidade">Cidade</option>
-                        <option value="formacaoRequerida">Formação Requerida</option>
-                        <option value="experienciaRequerida">Experiência Requerida</option>
-                        <option value="salario">Salário</option>
-                    </Form.Select>
-                </label>
-            </menu>
+                    <menu>
+                        <label>
+                            Ordenar por
+                            <Form.Select
+                                name="sort"
+                                id="sort"
+                                type="select"
+                                className="form-control-mt-1"
+                                value={sort}
+                                onChange={e => handleSortChange(e)}>
+                                <option value="dataPublicacao">Data Publicação</option>
+                                <option value="titulo">Título</option>
+                                <option value="cargo">Cargo</option>
+                                <option value="formatoDeTrabalho">Formato de Trabalho</option>
+                                <option value="cidade">Cidade</option>
+                                <option value="formacaoRequerida">Formação Requerida</option>
+                                <option value="experienciaRequerida">Experiência Requerida</option>
+                                <option value="salario">Salário</option>
+                            </Form.Select>
+                        </label>
+                    </menu>
                     <button type="submit" className="btn btn-primary" onClick={handleNovaVaga}>
                         Nova vaga
                     </button>
                 </div>
             </div>
-            
-            <br/>
+
+            <br />
             <div className="">
                 {vagas ?
                     <>
@@ -143,17 +119,17 @@ const Vagas = () => {
                                         <Card className="my-clickable-card" onClick={() => handleVerVaga(v.id)}>
                                             <Card.Header>{v.cargo} - Publicado em: {v.dataPublicacao}</Card.Header>
                                             <Card.Body>
-                                                <span>Empresa: {v.nomeEmpresa}</span><br/>
-                                                <span>Título: {v.titulo}</span><br/>
-                                                <span>Salário: {v.salario}</span><br/>
-                                                <span>Formato: {v.formatoDeTrabalho}</span><br/>
-                                                <span>Experiência Requirida: {v.experienciaRequirida} anos</span><br/>
-                                                <span>Formação Requirida: {v.formacaoRequirida}</span><br/>
-                                                <span>Descrição: {v.descricao}</span><br/>
-                                                <span>Empresa: {v.nomeEmpresa}</span><br/>
-                                                <span>Cidade: {v.cidade}</span><br/>
-                                                <span>Habilidade Requiridas: {v.habilidadesRequeridas}</span><br/>
-                                            
+                                                <span>Empresa: {v.nomeEmpresa}</span><br />
+                                                <span>Título: {v.titulo}</span><br />
+                                                <span>Salário: {v.salario}</span><br />
+                                                <span>Formato: {v.formatoDeTrabalho}</span><br />
+                                                <span>Experiência Requirida: {v.experienciaRequirida} anos</span><br />
+                                                <span>Formação Requirida: {v.formacaoRequirida}</span><br />
+                                                <span>Descrição: {v.descricao}</span><br />
+                                                <span>Empresa: {v.nomeEmpresa}</span><br />
+                                                <span>Cidade: {v.cidade}</span><br />
+                                                <span>Habilidade Requiridas: {v.habilidadesRequeridas}</span><br />
+
                                             </Card.Body>
                                         </Card>
                                         <br />
@@ -185,19 +161,19 @@ const Vagas = () => {
                     <menu>
                         <label>
                             Página
-                            <Form.Select 
-                                name="page" 
+                            <Form.Select
+                                name="page"
                                 id="page"
                                 type="select"
                                 className="form-control-mt-1"
                                 value={pagina}
                                 onChange={e => handlePaginaChange(e)}
-                                >
+                            >
                                 {
                                     <>
                                         {
                                             Array.from(Array(totalPaginas)).map((s, i) => (
-                                                <option key={i} value={i}>{i+1}</option>
+                                                <option key={i} value={i}>{i + 1}</option>
                                             ))
 
                                         }

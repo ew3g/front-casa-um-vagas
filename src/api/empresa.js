@@ -6,9 +6,9 @@ export const postEmpresa = async (request) => {
             console.log(error);
         });
 
-    console.log(response);
+    //console.log(response);
     if (response) {
-        console.log(response);
+        //console.log(response);
         return response;
     }
 
@@ -20,12 +20,12 @@ export const getEmpresas = async (pagina, maxResults, sort) => {
         .catch(function (error) {
             console.log(error);
         });
-    console.log(response);
+    //console.log(response);
     if (response) {
-        console.log(response);
+        //console.log(response);
         return response;
     }
 
     return undefined;
-    
+
 }

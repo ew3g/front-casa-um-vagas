@@ -19,10 +19,11 @@ const Empresas = () => {
     const [empresas, setEmpresas] = useState("");
     const [totalPaginas, setTotalPaginas] = useState(0);
     const [pagina, setPagina] = useState(0);
-    const [sort, setSort] = useState("dataPublicacao");
-    const [maxResults, setMaxResults] = useState(10);
+    const [sort, setSort] = useState("razaoSocial");
+    //const [maxResults, setMaxResults] = useState(10);
+    const maxResults = 10;
 
-    const fetchEmpresas = async(pg, max, srt) => {
+    const fetchEmpresas = async (pg, max, srt) => {
         console.log(pg, max, srt);
 
         const response = await getEmpresas(pg, max, srt);
@@ -34,13 +35,14 @@ const Empresas = () => {
 
             var numeroPaginas = Math.floor(totalElementos / maxResults);
 
-            if (totalElementos % 10 > 0) {
+            if (totalElementos % maxResults > 0) {
                 numeroPaginas++;
             }
             console.log("npg", numeroPaginas);
             setTotalPaginas(numeroPaginas);
         }
     };
+
     useEffect(() => {
         fetchEmpresas(pagina, maxResults, sort);
     }, []);
@@ -60,7 +62,7 @@ const Empresas = () => {
         setPagina(e.target.value);
         fetchEmpresas(e.target.value, maxResults, sort);
     }
-    
+
 
     return (
         <div>
@@ -70,8 +72,8 @@ const Empresas = () => {
                     <menu>
                         <label>
                             Ordenar por
-                            <Form.Select 
-                                name="sort" 
+                            <Form.Select
+                                name="sort"
                                 id="sort"
                                 type="select"
                                 className="form-control-mt-1"
@@ -90,8 +92,8 @@ const Empresas = () => {
                     </menu>
                 </div>
             </div>
-            
-            <br/>
+
+            <br />
             <div className="container">
                 <div className="d-grid gap-2 mt-3">
                     <button type="submit" className="btn btn-primary" onClick={handleNovaEmpresa}>
@@ -99,8 +101,8 @@ const Empresas = () => {
                     </button>
                 </div>
             </div>
-            
-            <br/>
+
+            <br />
             <div className="">
                 {empresas ?
                     <>
@@ -111,12 +113,12 @@ const Empresas = () => {
                                         <Card className="my-clickable-card" onClick={() => handleNovaEmpresa(e.id)}>
                                             <Card.Header>{e.nomeFantasia}</Card.Header>
                                             <Card.Body>
-                                                <span>Razão Social: {e.razaoSocial}</span><br/>
-                                                <span>Celular: {e.contato.celular}</span><br/>
-                                                <span>Telefone: {e.contato.telefone}</span><br/>
-                                                <span>Email: {e.contato.email}</span><br/>
-                                                <span>Site: {e.contato.site}</span><br/>
-                                                <span>Endereço: {e.endereco.logradouro}, {e.endereco.numero}, {e.endereco.bairro}, complemento: {e.endereco.complemento},  {e.endereco.cidade} - {e.endereco.uf}, CEP: {e.endereco.cep}</span><br/>
+                                                <span>Razão Social: {e.razaoSocial}</span><br />
+                                                <span>Celular: {e.contato.celular}</span><br />
+                                                <span>Telefone: {e.contato.telefone}</span><br />
+                                                <span>Email: {e.contato.email}</span><br />
+                                                <span>Site: {e.contato.site}</span><br />
+                                                <span>Endereço: {e.endereco.logradouro}, {e.endereco.numero}, {e.endereco.bairro}, complemento: {e.endereco.complemento},  {e.endereco.cidade} - {e.endereco.uf}, CEP: {e.endereco.cep}</span><br />
                                                 <span>Área de Atuação: {e.areaDeAtuacao}</span>
                                                 {/* <span>Título: {v.titulo}</span><br/>
                                                 <span>Salário: {v.salario}</span><br/>
@@ -127,7 +129,7 @@ const Empresas = () => {
                                                 <span>Empresa: {v.nomeEmpresa}</span><br/>
                                                 <span>Cidade: {v.cidade}</span><br/>
                                                 <span>Habilidade Requiridas: {v.habilidadesRequeridas}</span><br/> */}
-                                            
+
                                             </Card.Body>
                                         </Card>
                                         <br />
@@ -159,19 +161,19 @@ const Empresas = () => {
                     <menu>
                         <label>
                             Página
-                            <Form.Select 
-                                name="page" 
+                            <Form.Select
+                                name="page"
                                 id="page"
                                 type="select"
                                 className="form-control-mt-1"
                                 value={pagina}
                                 onChange={e => handlePaginaChange(e)}
-                                >
+                            >
                                 {
                                     <>
                                         {
                                             Array.from(Array(totalPaginas)).map((s, i) => (
-                                                <option key={i} value={i}>{i+1}</option>
+                                                <option key={i} value={i}>{i + 1}</option>
                                             ))
 
                                         }
