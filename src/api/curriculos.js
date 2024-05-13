@@ -1,5 +1,81 @@
 import api from './axiosConfig';
 
+
+export const postCurriculo = async (request) => {
+    const response = await api.post(`/curriculo`, request)
+        .catch(function (error) {
+            console.log(error);
+        });
+
+    console.log(response);
+    if (response) {
+        console.log(response);
+        return response;
+    }
+
+    return undefined;
+}
+
+export const putCurriculo = async (request) => {
+    const response = await api.put(`/curriculo`, request)
+        .catch(function (error) {
+            console.log(error);
+        });
+
+    console.log(response);
+    if (response) {
+        console.log(response);
+        return response;
+    }
+
+    return undefined;
+}
+
+export const deleteCurriculo = async (id) => {
+    const response = await api.delete(`/curriculo/${id}`)
+        .catch(function (error) {
+            console.log(error);
+        });
+
+    console.log(response);
+    if (response) {
+        console.log(response);
+        return response;
+    }
+
+    return undefined;
+}
+
+export const getCurriculoById = async (id) => {
+    const response = await api.get(`/curriculo/${id}`)
+        .catch(function (error) {
+            console.log(error);
+        });
+    //console.log(response);
+    if (response) {
+        //console.log(response);
+        return response;
+    }
+
+    return undefined;
+
+}
+
+export const getCurriculos = async (pagina, maxResults, sort) => {
+    const response = await api.get(`/curriculo?page=${pagina}&size=${maxResults}&sort=${sort}`)
+        .catch(function (error) {
+            console.log(error);
+        });
+    //console.log(response);
+    if (response) {
+        //console.log(response);
+        return response;
+    }
+
+    return undefined;
+
+}
+
 export const getCurriculoByUsuarioId = async (usuarioId) => {
     // const response = await api.get(`/curriculo/${usuarioId}`)
     // .catch(function (error) {

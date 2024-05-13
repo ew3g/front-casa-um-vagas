@@ -2,97 +2,101 @@ import { React, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AppNavbar from "./Navbar";
 import Footer from "./Footer";
+import Form from 'react-bootstrap/Form';
 import '../style/meu-curriculo.css';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
-import { getVagas } from "../api/vagas";
+import { getCurriculos, deleteCurriculo } from "../api/curriculos";
 import '../style/vagas.css';
-import { getEmpresas, deleteEmpresa } from "../api/empresa";
-import NovaEmpresa from "./NovaEmpresa";
-import Form from 'react-bootstrap/Form';
 
 
-const Empresas = () => {
+const Curriculos = () => {
     const navigate = useNavigate();
 
-    const [empresas, setEmpresas] = useState("");
+    const [curriculos, setCurriculos] = useState("");
     const [totalPaginas, setTotalPaginas] = useState(0);
     const [pagina, setPagina] = useState(0);
-    const [sort, setSort] = useState("razaoSocial");
-    //const [maxResults, setMaxResults] = useState(10);
+    const [sort, setSort] = useState("dadosPessoais.nome");
     const maxResults = 10;
 
-    const fetchEmpresas = async (pg, max, srt) => {
+    const fetchCurriculos = async (pg, max, srt) => {
         console.log(pg, max, srt);
-
-        const response = await getEmpresas(pg, max, srt);
-
+        //const usuarioId = localStorage.getItem("usuarioId");
+        //if (usuarioId) {
+        //console.log(maxResults);
+        const response = await getCurriculos(pg, max, srt);
+        //console.log(filtros);
+        //console.log(response.data.vagas);
         if (response) {
-            setEmpresas(response.data.content);
+            setCurriculos(response.data.content);
+            //setTotalElementos(response.data.totalElements);
 
+            //console.log(response.data.totalElements, total);
             const totalElementos = response.data.totalElements;
 
             var numeroPaginas = Math.floor(totalElementos / maxResults);
-
             if (totalElementos % maxResults > 0) {
                 numeroPaginas++;
             }
-            console.log("npg", numeroPaginas);
+            console.log("npg", numeroPaginas)
             setTotalPaginas(numeroPaginas);
-        }
+            //totalPaginas = numeroPaginas;
+            //console.log(numeroPaginas)
+        };
+
+        //}
     };
 
     useEffect(() => {
-        fetchEmpresas(pagina, maxResults, sort);
+        fetchCurriculos(pagina, maxResults, sort);
     }, []);
 
-    const handleNovaEmpresa = () => {
-        navigate("/empresa");
+    const handleEditarCurriculo = (id) => {
+        navigate(`/curriculo/${id}`);
     };
 
-    const handleEditarEmpresa = (id) => {
-       // console.log(id);
-        navigate(`/empresa/${id}`);
-    };
-
-    const handleExcluirEmpresa = async (id) => {
+    const handleExcluirCurriculo = async (id) => {
         if (!window.confirm("Deseja excluir o registro?")) {
             return;
         }
         
         //e.preventDefault();
 
-        await deleteEmpresa(id).then(response => {
+        await deleteCurriculo(id).then(response => {
             if (response) {
                 //console.log(response);
                 if (response.status === 204) {
-                    window.alert('Empresa removida com sucesso');
-                    navigate('/empresas');
+                    window.alert('Currículo removido com sucesso');
+                    navigate('/curriculos');
                     window.location.reload();
                 } else {
-                    window.alert("Erro ao excluir empresa: " + response.data.detail);
+                    window.alert("Erro ao excluir currículo: " + response.data.detail);
                 }
 
             } else {
-                window.alert("Erro ao excluir empresa");
+                window.alert("Erro ao excluir currículo");
             }
         }).catch(err => {
             window.alert(err);
         });
     };
+    
+
+    const handleNovoCurriculo = () => {
+        navigate("/curriculo");
+    };
 
     const handleSortChange = (e) => {
         console.log("rodou", e.target.value);
         setSort(e.target.value);
-        fetchEmpresas(pagina, maxResults, e.target.value);
+        fetchCurriculos(pagina, maxResults, e.target.value);
     }
 
     const handlePaginaChange = (e) => {
         console.log("rodou", e.target.value);
         setPagina(e.target.value);
-        fetchEmpresas(e.target.value, maxResults, sort);
+        fetchCurriculos(e.target.value, maxResults, sort);
     }
-
 
     return (
         <div>
@@ -109,67 +113,51 @@ const Empresas = () => {
                                 className="form-control-mt-1"
                                 value={sort}
                                 onChange={e => handleSortChange(e)}>
-                                <option value="razaoSocial">Razão Social</option>
-                                <option value="nomeFantasia">Nome Fantasia</option>
-                                <option value="areaDeAtuacao">Área de Atuação</option>
-                                <option value="contato.email">Email</option>
-                                <option value="contato.site">Site</option>
-                                <option value="endereco.cep">CEP</option>
+                                <option value="dadosPessoais.nome">Nome</option>
+                                <option value="dadosPessoais.dataNascimento">Data de Nascimento</option>
                                 <option value="endereco.cidade">Cidade</option>
                                 <option value="endereco.uf">UF</option>
                             </Form.Select>
                         </label>
                     </menu>
-                </div>
-            </div>
-
-            <br />
-            <div className="container">
-                <div className="d-grid gap-2 mt-3">
-                    <button type="submit" className="btn btn-primary" onClick={handleNovaEmpresa}>
-                        Nova Empresa
+                    <button type="submit" className="btn btn-primary" onClick={handleNovoCurriculo}>
+                        Novo Currículo
                     </button>
                 </div>
             </div>
 
             <br />
             <div className="">
-                {empresas ?
+                {curriculos ?
                     <>
                         <div className="container">
                             <div className="card-deck">
-                                {empresas.map((e, index) => {
+                                {curriculos.map((c, index) => {
                                     return <div key={index}>
                                         <Card>
-                                            <Card.Header>{e.nomeFantasia}</Card.Header>
+                                            <Card.Header>{c.nome} {c.sobrenome}</Card.Header>
                                             <Card.Body>
-                                                <span>Razão Social: {e.razaoSocial}</span><br />
-                                                <span>Celular: {e.contato.celular}</span><br />
-                                                <span>Telefone: {e.contato.telefone}</span><br />
-                                                <span>Email: {e.contato.email}</span><br />
-                                                <span>Site: {e.contato.site}</span><br />
-                                                <span>Endereço: {e.endereco.logradouro}, {e.endereco.numero}, {e.endereco.bairro}, complemento: {e.endereco.complemento},  {e.endereco.cidade} - {e.endereco.uf}, CEP: {e.endereco.cep}</span><br />
-                                                <span>Área de Atuação: {e.areaDeAtuacao}</span>
-                                                {/* <span>Título: {v.titulo}</span><br/>
-                                                <span>Salário: {v.salario}</span><br/>
-                                                <span>Formato: {v.formatoDeTrabalho}</span><br/>
-                                                <span>Experiência Requirida: {v.experienciaRequirida} anos</span><br/>
-                                                <span>Formação Requirida: {v.formacaoRequirida}</span><br/>
-                                                <span>Descrição: {v.descricao}</span><br/>
-                                                <span>Empresa: {v.nomeEmpresa}</span><br/>
-                                                <span>Cidade: {v.cidade}</span><br/>
-                                                <span>Habilidade Requiridas: {v.habilidadesRequeridas}</span><br/> */}
+                                                <span>Gênero: {c.genero}</span><br />
+                                                <span>Data de Nascimento: {c.dataNascimento}</span><br />
+                                                <span>Nacionalidade: {c.nacionalidade}</span><br />
+                                                <span>Telefone: {c.contato.telefone}</span><br />
+                                                <span>Celular: {c.contato.celular}</span><br />
+                                                <span>Email: {c.contato.email}</span><br />
+                                                <span>Cidade: {c.endereco.cidade}</span><br />
+                                                <span>UF: {c.endereco.uf}</span><br />
 
                                                 <div className="d-grid gap-2 mt-3">
-                                                    <button type="button" className="btn btn-primary" onClick={() => handleEditarEmpresa(e.id)}>
+                                                    <button type="button" className="btn btn-primary" onClick={() => handleEditarCurriculo(c.id)}>
                                                         Editar
                                                     </button>
                                                 </div>
+
                                                 <div className="d-grid gap-2 mt-3">
-                                                    <button type="button" className="btn btn-danger" onClick={() => handleExcluirEmpresa(e.id)}>
+                                                    <button type="button" className="btn btn-danger" onClick={() => handleExcluirCurriculo(c.id)}>
                                                         Excluir
                                                     </button>
                                                 </div>
+
                                             </Card.Body>
                                         </Card>
                                         <br />
@@ -181,7 +169,7 @@ const Empresas = () => {
                     :
                     <>
                         <div className="container">
-                            <span>No momento não há empresas cadastradas</span>
+                            <span>No momento não há currículos cadastraos</span>
                         </div>
                         {/* {vagas.map((v, index) => (
                             <div key={index}>
@@ -246,4 +234,4 @@ const Empresas = () => {
     );
 };
 
-export default Empresas;
+export default Curriculos;

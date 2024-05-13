@@ -30,7 +30,12 @@ const AppNavbar = () => {
             <Navbar.Toggle aria-controls="app-navbar-collapse" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="ml-auto">
-                {(token !== null && token !== "") &&
+                    {(token !== null && token !== "") &&
+                        <LinkContainer to="/curriculos">
+                            <Nav.Link>Currículos</Nav.Link>
+                        </LinkContainer>
+                    }
+                    {(token !== null && token !== "") &&
                         <LinkContainer to="/empresas">
                             <Nav.Link>Empresas</Nav.Link>
                         </LinkContainer>

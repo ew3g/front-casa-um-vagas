@@ -4,14 +4,17 @@ import AppNavbar from './Navbar';
 import Footer from './Footer';
 import Form from 'react-bootstrap/Form';
 import '../style/nova-empresa.css';
-import { postVaga } from '../api/vagas';
+import { postVaga, putVaga, getVagas } from '../api/vagas';
 import { useNavigate } from "react-router-dom";
 import { getEmpresas } from "../api/empresa";
 import AsyncSelect from 'react-select/async';
+import { useParams } from 'react-router';
+
 
 const NovaVaga = () => {
     const navigate = useNavigate();
     const [info, setInfo] = useState('');
+    const {id} = useParams();
     const INITIAL_DATA = {
         value: 0,
         label: 'Selecione o usuário',
@@ -58,6 +61,16 @@ const NovaVaga = () => {
         dataPublicacao: ""
     });
 
+    useEffect(() => {
+        const fetchVaga = async (id) => {
+            //const response = await getVagas
+        };
+
+        if (id) {
+            fetchVaga(id);
+        }
+    }, []);
+
     const handleChange = (e, field) => {
         //console.log(e, field);
         const { value } = e.target;
@@ -80,7 +93,7 @@ const NovaVaga = () => {
                 //console.log(response);
                 if (response.status === 201) {
                     setInfo('');
-                    alert('Vagas criada com sucesso');
+                    alert('Vaga criada com sucesso');
                     navigate('/vagas');
                 } else if (response.status === 409) {
                     setInfo("Vaga já existe");

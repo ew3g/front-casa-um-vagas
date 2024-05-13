@@ -3,11 +3,10 @@ import { useNavigate } from "react-router-dom";
 import AppNavbar from "./Navbar";
 import Footer from "./Footer";
 import Form from 'react-bootstrap/Form';
-import { getCurriculoByUsuarioId } from "../api/curriculo";
 import '../style/meu-curriculo.css';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
-import { getVagas } from "../api/vagas";
+import { getVagas, deleteVaga } from "../api/vagas";
 import '../style/vagas.css';
 
 
@@ -52,13 +51,36 @@ const Vagas = () => {
         fetchVagas(pagina, maxResults, sort);
     }, []);
 
-    const handleVerVaga = (vagaId) => {
-        navigate("/vaga/" + vagaId);
+    const handleEditarVaga = (id) => {
+        navigate(`/vaga/${id}`);
     };
 
-    const handleEditarcurriculo = () => {
-        navigate("/editar-curriculo");
+    const handleExcluirVaga = async (id) => {
+        if (!window.confirm("Deseja excluir o registro?")) {
+            return;
+        }
+        
+        //e.preventDefault();
+
+        await deleteVaga(id).then(response => {
+            if (response) {
+                //console.log(response);
+                if (response.status === 204) {
+                    window.alert('Vaga removida com sucesso');
+                    navigate('/vagas');
+                    window.location.reload();
+                } else {
+                    window.alert("Erro ao excluir vaga: " + response.data.detail);
+                }
+
+            } else {
+                window.alert("Erro ao excluir vaga");
+            }
+        }).catch(err => {
+            window.alert(err);
+        });
     };
+    
 
     const handleNovaVaga = () => {
         navigate("/vaga");
@@ -115,8 +137,8 @@ const Vagas = () => {
                         <div className="container">
                             <div className="card-deck">
                                 {vagas.map((v, index) => {
-                                    return <div key={index} className="my-clickable-card">
-                                        <Card className="my-clickable-card" onClick={() => handleVerVaga(v.id)}>
+                                    return <div key={index}>
+                                        <Card>
                                             <Card.Header>{v.cargo} - Publicado em: {v.dataPublicacao}</Card.Header>
                                             <Card.Body>
                                                 <span>Empresa: {v.nomeEmpresa}</span><br />
@@ -129,6 +151,19 @@ const Vagas = () => {
                                                 <span>Empresa: {v.nomeEmpresa}</span><br />
                                                 <span>Cidade: {v.cidade}</span><br />
                                                 <span>Habilidade Requiridas: {v.habilidadesRequeridas}</span><br />
+
+
+                                                <div className="d-grid gap-2 mt-3">
+                                                    <button type="button" className="btn btn-primary" onClick={() => handleEditarVaga(v.id)}>
+                                                        Editar
+                                                    </button>
+                                                </div>
+
+                                                <div className="d-grid gap-2 mt-3">
+                                                    <button type="button" className="btn btn-danger" onClick={() => handleExcluirVaga(v.id)}>
+                                                        Excluir
+                                                    </button>
+                                                </div>
 
                                             </Card.Body>
                                         </Card>

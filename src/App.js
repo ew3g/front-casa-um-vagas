@@ -11,6 +11,7 @@ import EsqueciSenha from './components/EsqueciSenha';
 import NovoCurriculo from './components/NovoCurriculo';
 import NovaVaga from './components/NovaVaga';
 import Empresas from './components/Empresas';
+import Curriculos from './components/Curriculos';
 
 const App = () => {
   // return (
@@ -36,14 +37,18 @@ const App = () => {
         <Routes>
           <Route exact path="/" element={<Login />} />
           <Route exact path="/home" element={<Home />} />
-          <Route exact path="/meu-curriculo" element={<MeuCurriculo />} />
+          {/* <Route exact path="/meu-curriculo" element={<MeuCurriculo />} /> */}
           <Route exact path="/vagas" element={<Vagas />} />
           <Route exact path="/novo-usuario" element={<NovoUsuario />} />
           <Route exact path="/empresa" element={<NovaEmpresa />} />
+          <Route exact path="/empresa/:id" element={<NovaEmpresa/>}/>
           <Route exact path="/empresas" element={<Empresas />} />
-          <Route exact path="/novo-curriculo" element={<NovoCurriculo />} />
+          <Route exact path="/curriculos" element={<Curriculos />} />
+          <Route exact path="/curriculo" element={<NovoCurriculo />} />
+          <Route exact path="/curriculo/:id" element={<NovoCurriculo />} />
           <Route exact path="/esqueci-senha" element={<EsqueciSenha />} />
           <Route exact path="/vaga" element={<NovaVaga />} />
+          <Route exact path="/vaga/:id" element={<NovaVaga/>}/>
           <Route exact path="/vagas" element={<Vagas />} />
         </Routes>
       </Router>

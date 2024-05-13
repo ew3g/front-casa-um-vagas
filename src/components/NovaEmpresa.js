@@ -1,18 +1,21 @@
-import { React, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import { TextField, Button, Typography, Container, Grid } from '@mui/material';
 import AppNavbar from './Navbar';
 import Footer from './Footer';
 import Form from 'react-bootstrap/Form';
 import '../style/nova-empresa.css';
-import { postEmpresa } from '../api/empresa';
+import { getEmpresa, postEmpresa, putEmpresa } from '../api/empresa';
 import { useNavigate } from "react-router-dom";
-
+import { useParams } from 'react-router';
 
 const NovaEmpresa = () => {
     const navigate = useNavigate();
     const [info, setInfo] = useState('');
+    const { id } = useParams();
+    //const [ empresaExistente, setEmpresaExistente] = useState('');
     const [formData, setFormData] = useState({
         empresa: {
+            id: "",
             cnpj: "",
             razaoSocial: "",
             nomeFantasia: "",
@@ -35,8 +38,67 @@ const NovaEmpresa = () => {
         }
     });
 
+    useEffect(() => {
+        const fetchEmpresa = async (id) => {    
+            const response = await getEmpresa(id);
+    
+            if (response) {
+                console.log(response.data);
+                var empresaExistente = response.data;
+                //formData.empresa.cnpj = empresaExistente.cnpj;
+                change(empresaExistente.id, "empresa", "id")
+                change(empresaExistente.cnpj, "empresa", "cnpj");
+                change(empresaExistente.razaoSocial, "empresa", "razaoSocial");
+                change(empresaExistente.nomeFantasia, "empresa", "nomeFantasia");
+                change(empresaExistente.areaDeAtuacao, "empresa", "areaDeAtuacao");
+                change(empresaExistente.contato.telefone, "contato", "telefone");
+                change(empresaExistente.contato.celular, "contato", "celular");
+                change(empresaExistente.contato.email, "contato", "email");
+                change(empresaExistente.contato.site, "contato", "site");
+                change(empresaExistente.endereco.cep, "endereco", "cep");
+                change(empresaExistente.endereco.logradouro, "endereco", "logradouro");
+                change(empresaExistente.endereco.numero, "endereco", "numero");
+                change(empresaExistente.endereco.complemento, "endereco", "complemento");
+                change(empresaExistente.endereco.bairro, "endereco", "bairro");
+                change(empresaExistente.endereco.cidade, "endereco", "cidade");
+                change(empresaExistente.endereco.uf, "endereco", "uf");
+                //console.log(formData);
+                //window.location.reload();
+                // setEmpresas(response.data.content);
+    
+                // const totalElementos = response.data.totalElements;
+    
+                // var numeroPaginas = Math.floor(totalElementos / maxResults);
+    
+                // if (totalElementos % maxResults > 0) {
+                //     numeroPaginas++;
+                // }
+                // console.log("npg", numeroPaginas);
+                // setTotalPaginas(numeroPaginas);
+            }
+        };
+
+        if (id) {
+            fetchEmpresa(id);
+        }
+
+    }, []);
+
     const handleChange = (e, section, field) => {
+        console.log(e.target);
         const { value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [section]: {
+                ...prevState[section],
+                [field]: value
+            }
+        }));
+    };
+
+    const change = (value, section, field) => {
+        //console.log(e.target);
+        //const { value } = e.target;
         setFormData(prevState => ({
             ...prevState,
             [section]: {
@@ -69,25 +131,68 @@ const NovaEmpresa = () => {
         //     "senha": senha,
         // };
 
-        await postEmpresa(formData).then(response => {
-            if (response) {
-                console.log(response);
-                if (response.status === 201) {
-                    setInfo('');
-                    alert('Empresa criada com sucesso');
-                    navigate('/empresas');
-                } else if (response.status === 409) {
-                    setInfo("Empresa já existe");
-                } else {
-                    setInfo("Erro ao criar empresa: " + response.data.detail);
-                }
-
-            } else {
-                setInfo("Erro ao criar empresa");
+        if (id) {
+            const formDataPut = {
+                    id: id,
+                    cnpj: formData.empresa.cnpj,
+                    razaoSocial: formData.empresa.razaoSocial,
+                    nomeFantasia: formData.empresa.nomeFantasia,
+                    areaDeAtuacao: formData.empresa.areaDeAtuacao,
+                    telefone: formData.contato.telefone,
+                    celular: formData.contato.celular,
+                    email: formData.contato.email,
+                    site: formData.contato.site,
+                    cep: formData.endereco.cep,
+                    logradouro: formData.endereco.logradouro,
+                    numero: formData.endereco.numero,
+                    complemento: formData.endereco.complemento,
+                    bairro: formData.endereco.bairro,
+                    cidade: formData.endereco.cidade,
+                    uf: formData.endereco.uf,
             }
-        }).catch(err => {
-            setInfo(err);
-        });
+
+
+            await putEmpresa(formDataPut).then(response => {
+                if (response) {
+                    console.log(response);
+                    if (response.status === 200) {
+                        setInfo('');
+                        alert('Empresa atualizada com sucesso');
+                        navigate('/empresas');
+                    } else if (response.status === 409) {
+                        setInfo("Empresa já existe");
+                    } else {
+                        setInfo("Erro ao atualizar empresa: " + response.data.detail);
+                    }
+    
+                } else {
+                    setInfo("Erro ao atualizar empresa");
+                }
+            }).catch(err => {
+                setInfo(err);
+            });
+            //console.log(formDataPut)
+        } else {
+            await postEmpresa(formData).then(response => {
+                if (response) {
+                    console.log(response);
+                    if (response.status === 201) {
+                        setInfo('');
+                        alert('Empresa criada com sucesso');
+                        navigate('/empresas');
+                    } else if (response.status === 409) {
+                        setInfo("Empresa já existe");
+                    } else {
+                        setInfo("Erro ao criar empresa: " + response.data.detail);
+                    }
+    
+                } else {
+                    setInfo("Erro ao criar empresa");
+                }
+            }).catch(err => {
+                setInfo(err);
+            });
+        }
     };
 
     return (
@@ -96,7 +201,14 @@ const NovaEmpresa = () => {
             <div className="nova-empresa-container">
                 <form className='nova-empresa-form'>
                     <div className='nova-empresa-form-content'>
-                        <h3 className='nova-empresa-form-title'>Cadastro empresa</h3>
+                        {id ? 
+                            <>
+                                <h3 className='nova-empresa-form-title'>Editar empresa</h3>
+                            </> 
+                            : 
+                            <>
+                                <h3 className='nova-empresa-form-title'>Nova empresa</h3>
+                            </>}
                         <h4>Dados Empresa</h4>
                         <div className='form-group mt-3'>
                             <label>CNPJ</label>
@@ -258,7 +370,7 @@ const NovaEmpresa = () => {
                         </div>
                         <div className="d-grid gap-2 mt-3">
                             <button className="btn btn-primary" onClick={handleCriarEmpresa}>
-                                Adicionar dados empresa
+                                OK
                             </button>
                         </div>
                         <div className="d-grid gap-2 mt-3">
