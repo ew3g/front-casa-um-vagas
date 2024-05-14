@@ -49,7 +49,7 @@ const Login = () => {
 
     return (
         <div>
-            <AppNavbar />
+            {/* <AppNavbar /> */}
             <div className="login-container">
                 <form className="login-form">
                     <div className="login-form-content">
@@ -79,12 +79,12 @@ const Login = () => {
                                 Entrar
                             </button>
                         </div>
-                        <div className="d-grid gap-2 mt-3">
+                        {/* <div className="d-grid gap-2 mt-3">
                             <a className='btn btn-primary' href='/novo-usuario'>Novo Usuário</a>
-                        </div>
-                        <p className="forgot-password text-right mt-2">
+                        </div> */}
+                        {/* <p className="forgot-password text-right mt-2">
                             <a href="/esqueci-senha">Esqueceu a sua senha?</a>
-                        </p>
+                        </p> */}
                     </div>
                 </form>
             </div>

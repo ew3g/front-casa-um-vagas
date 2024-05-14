@@ -11,6 +11,7 @@ import AsyncSelect from 'react-select/async';
 import { useParams } from 'react-router';
 
 
+
 const NovaVaga = () => {
     const navigate = useNavigate();
     const [info, setInfo] = useState('');
@@ -63,7 +64,7 @@ const NovaVaga = () => {
 
     useEffect(() => {
         const fetchVaga = async (id) => {
-            //const response = await getVagas
+            const response = await getVagas
         };
 
         if (id) {
@@ -87,6 +88,41 @@ const NovaVaga = () => {
 
     const handleCriarVaga = async (e) => {
         e.preventDefault();
+
+        if (formData.titulo === "") {
+            setInfo('Por favor, preencha o título.');
+            return;
+        } else if (formData.cargo === "") {
+            setInfo('Por favor, preencha o cargo.');
+            return;
+        } else if (formData.formatoDeTrabalho === "") {
+            setInfo('Por favor, selecione o formato de trabalho.');
+            return;
+        } else if (formData.idEmpresa === 0) {
+            setInfo('Por favor, selecione a empresa.');
+            return;
+        } else if (formData.experienciaRequerida === "") {
+            setInfo('Por favor, preencha a experiência requerida.');
+            return;
+        } else if (formData.habilidadesRequeridas === "") {
+            setInfo('Por favor, preencha as habilidades requiridas.');
+            return;
+        } else if (formData.descricao === "") {
+            setInfo('Por favor, preencha a descrição.');
+            return;
+        } else if (formData.salario === "" || formData.salario === 0) {
+            setInfo('Por favor, preencha o salário.');
+            return;
+        } else if (formData.dataPublicacao === "") {
+            setInfo('Por favor, preencha a data de publicação.');
+            return;
+        } else if (isNaN(formData.experienciaRequerida)) {
+            setInfo('Por favor, insira um valor válido para experiência requirida.');
+            return;
+        } else if (isNaN(formData.salario)) {
+            setInfo('Por favor, insira um valor válido para o salário.');
+            return;
+        }
 
         await postVaga(formData).then(response => {
             if (response) {
@@ -188,19 +224,20 @@ const NovaVaga = () => {
                         </div>
                         <div className='form-group mt-3'>
                             <label>Habilidades requeridas</label>
-                            <input
-                                type="textarea"
-                                className="form-control mt-1"
-                                placeholder="Habilidades requeridas"
-                                value={formData.habilidadesRequeridas}
-                                onChange={e => handleChange(e, "habilidadesRequeridas")}
+                            <textarea
+                            className="form-control mt-1"
+                            rows="4"
+                            placeholder="Habilidades requeridas"
+                            value={formData.habilidadesRequeridas}
+                            onChange={e => handleChange(e, "habilidadesRequeridas")}
                             />
                         </div>
                         <div className='form-group mt-3'>
                             <label>Descrição</label>
-                            <input
+                            <textarea
                                 type="textarea"
                                 className="form-control mt-1"
+                                rows="4"
                                 placeholder="Descrição"
                                 value={formData.descricao}
                                 onChange={e => handleChange(e, "descricao")}
@@ -221,9 +258,10 @@ const NovaVaga = () => {
                             <input
                                 type="text"
                                 className="form-control mt-1"
-                                placeholder="Data de publicação"
+                                placeholder="AAAA-MM-DD"
                                 value={formData.dataPublicacao}
                                 onChange={e => handleChange(e, "dataPublicacao")}
+            
                             />
                         </div>
 
@@ -262,6 +300,8 @@ const NovaVaga = () => {
     //     </div>
     // </div>);
 };
+
+
 
 
 

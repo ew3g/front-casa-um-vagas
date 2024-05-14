@@ -38,3 +38,11 @@
     transform: rotate(360deg);
   }
 }
+
+.my-clickable {
+  cursor: pointer;
+}
+
+#right{
+  float: right;
+}

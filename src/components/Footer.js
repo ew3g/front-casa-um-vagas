@@ -8,7 +8,7 @@ const Footer = () => {
             <Navbar color="dark" dark>
                 <Container>
                     <NavbarBrand>Casa 1 Vagas</NavbarBrand>
-                    <NavbarText>Test</NavbarText>
+                    <NavbarText>2024</NavbarText>
                 </Container>
             </Navbar>
         </div>

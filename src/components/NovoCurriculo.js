@@ -165,6 +165,74 @@ const NovoCurriculo = () => {
     const handleCriarCurriculo = async (e) => {
         e.preventDefault();
 
+        if (formData.dadosPessoais.nome === "") {
+            setInfo('Por favor, preencha o nome.');
+            return;
+        } else if (formData.dadosPessoais.sobrenome === "") {
+            setInfo('Por favor, preencha o sobrenome.');
+            return;
+        } else if (formData.dadosPessoais.cpf === "") {
+            setInfo('Por favor, preencha o cpf.');
+            return;
+        } else if (formData.dadosPessoais.dataNascimento === "") {
+            setInfo('Por favor, preencha a data de nascimento.');
+            return;
+        } else if (formData.dadosPessoais.genero === "") {
+            setInfo('Por favor, preencha o gênero.');
+            return;
+        } else if (formData.dadosPessoais.nacionalidade === "") {
+            setInfo('Por favor, preencha a nacionalidade.');
+            return;
+        } else if (formData.contato.telefone === "") {
+            setInfo('Por favor, preencha o telefone.');
+            return;
+        } else if (formData.contato.celular === "") {
+            setInfo('Por favor, preencha o celular.');
+            return;
+        } else if (formData.contato.email === "") {
+            setInfo('Por favor, preencha o email.');
+            return;
+        } else if (formData.contato.site === "") {
+            setInfo('Por favor, preencha o site.');
+            return;
+        } else if (formData.endereco.cep === "") {
+            setInfo('Por favor, preencha o cep.');
+            return;
+        } else if (formData.endereco.logradouro === "") {
+            setInfo('Por favor, preencha o logradouro.');
+            return;
+        } else if (formData.endereco.numero === "") {
+            setInfo('Por favor, preencha o número.');
+            return;
+        } else if (formData.endereco.complemento === "") {
+            setInfo('Por favor, preencha o complemento.');
+            return;
+        } else if (formData.endereco.bairro === "") {
+            setInfo('Por favor, preencha o bairro.');
+            return;
+        } else if (formData.endereco.cidade === "") {
+            setInfo('Por favor, preencha o cidade.');
+            return;
+        } else if (formData.endereco.uf === "") {
+            setInfo('Por favor, preencha a uf.');
+            return;
+        } else if (formData.formacao.curso === "") {
+            setInfo('Por favor, preencha o curso.');
+            return;
+        } else if (formData.formacao.nivel === "") {
+            setInfo('Por favor, preencha o nível.');
+            return;
+        } else if (formData.formacao.instituicao === "") {
+            setInfo('Por favor, preencha a instituição.');
+            return;
+        } else if (formData.formacao.dataInicio === "") {
+            setInfo('Por favor, preencha a data de início.');
+            return;
+        } else if (formData.formacao.dataConclusao === "") {
+            setInfo('Por favor, preencha a data de conclusão.');
+            return;
+        }
+
         if (id) {
             const formDataPut = {
                 id: id,
@@ -328,7 +396,7 @@ const NovoCurriculo = () => {
                             <input
                                 type="text"
                                 className="form-control mt-1"
-                                placeholder="Data de Nascimento"
+                                placeholder="AAAA-MM-DD"
                                 value={formData.dadosPessoais.dataNascimento}
                                 onChange={e => handleChange(e, "dadosPessoais", "dataNascimento")}
                             />
@@ -504,7 +572,7 @@ const NovoCurriculo = () => {
                             <input
                                 type="text"
                                 className="form-control mt-1"
-                                placeholder="Início"
+                                placeholder="AAAA-MM-DD"
                                 value={formData.formacao.dataInicio}
                                 onChange={e => handleChange(e, "formacao", "dataInicio")}
                             />
@@ -514,7 +582,7 @@ const NovoCurriculo = () => {
                             <input
                                 type="text"
                                 className="form-control mt-1"
-                                placeholder="Conclusão"
+                                placeholder="AAAA-MM-DD"
                                 value={formData.formacao.dataConclusao}
                                 onChange={e => handleChange(e, "formacao", "dataConclusao")}
                             />
@@ -550,7 +618,7 @@ const NovoCurriculo = () => {
                                         type="text"
                                         name='dataInicio'
                                         className="form-control mt-1"
-                                        placeholder="Início"
+                                        placeholder="YYYY-MM-DD"
                                         value={profissional.dataInicio}
                                         onChange={e => handleProfissionalChange(e, index)}
                                     />
@@ -560,7 +628,7 @@ const NovoCurriculo = () => {
                                         type="text"
                                         name='dataFim'
                                         className="form-control mt-1"
-                                        placeholder="Fim"
+                                        placeholder="YYYY-MM-DD"
                                         value={profissional.dataFim}
                                         onChange={e => handleProfissionalChange(e, index)}
                                     />

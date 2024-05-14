@@ -111,6 +111,53 @@ const NovaEmpresa = () => {
     const handleCriarEmpresa = async (e) => {
         e.preventDefault();
 
+        if (formData.empresa.cnpj === "") {
+            setInfo('Por favor, preencha o cnpj.');
+            return;
+        } else if (formData.empresa.razaoSocial === "") {
+            setInfo('Por favor, preencha a razão social.');
+            return;
+        } else if (formData.empresa.nomeFantasia === "") {
+            setInfo('Por favor, preencha o nome fantasia.');
+            return;
+        } else if (formData.empresa.areaDeAtuacao === "") {
+            setInfo('Por favor, selecione a área de atuação.');
+            return;
+        } else if (formData.contato.telefone === "") {
+            setInfo('Por favor, preencha o telefone.');
+            return;
+        } else if (formData.contato.celular === "") {
+            setInfo('Por favor, preencha o celular.');
+            return;
+        } else if (formData.contato.email === "") {
+            setInfo('Por favor, preencha o email.');
+            return;
+        } else if (formData.contato.site === "") {
+            setInfo('Por favor, preencha o site.');
+            return;
+        } else if (formData.endereco.cep === "") {
+            setInfo('Por favor, preencha o cep.');
+            return;
+        } else if (formData.endereco.logradouro === "") {
+            setInfo('Por favor, preencha o logradouro.');
+            return;
+        } else if (formData.endereco.numero === "") {
+            setInfo('Por favor, preencha o número.');
+            return;
+        } else if (formData.endereco.complemento === "") {
+            setInfo('Por favor, preencha o complemento.');
+            return;
+        } else if (formData.endereco.bairro === "") {
+            setInfo('Por favor, preencha o bairro.');
+            return;
+        } else if (formData.endereco.cidade === "") {
+            setInfo('Por favor, preencha a cidade.');
+            return;
+        } else if (formData.endereco.uf === "") {
+            setInfo('Por favor, preencha a uf.');
+            return;
+        }
+
         //console.log("click");
         //console.log(formData);
         //const response = await postEmpresa(formData);
